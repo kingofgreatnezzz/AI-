@@ -1,4 +1,0 @@
-Python is a high-level programming language.
-Python is commonly used for web development, automation, data science, and artificial intelligence.
-FastAPI is a modern Python web framework for building APIs.
-FastAPI automatically generates interactive API documentation.
