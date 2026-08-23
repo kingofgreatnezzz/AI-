@@ -4,8 +4,18 @@ import os
 
 app = FastAPI()
 
+# get question request
+@app.get("/ask")
+def ask(question: str):
+    return{"answer": f"dummy:{question}"}
+    
+# home page message 
+@app.get("/")
+def home():
+    return{"Hello" : "world"}
 
 
+# My documents (load all documents so it's visible)
 def load_docs(folder="doc"):
     docs = []
     for name in os.listdir(folder):
@@ -24,22 +34,9 @@ def load_docs(folder="doc"):
     return docs
 
 
+# Chuncking will take a file, size, overlap 
+# Reason for Embeddings and Retrieval 
 
-@app.get("/ask")
-def ask(question: str):
-    return{"answer": f"dummy:{question}"}
-    
-    
-@app.get("/")
-def home():
-    return{"Hello" : "world"}
-
-
-#docs = load_docs()
-#print(docs)
-
-
-# Chuncking will take a size, overlap 
 def chunk(text, size=400, overlap=80):
     chunks = []
     # Iterate through the text by size
@@ -50,19 +47,29 @@ def chunk(text, size=400, overlap=80):
         if piece.strip():
             chunks.append(piece)
             print(chunks)
-            
+    return chunks
+
+# Test for Chuncking
+docs = load_docs()
+
+# call the chunk function to chunk a file
+chucker = chunk(docs[0]["text"], size=100, overlap=20)
+
+# Print the source of the doc selected
+source = docs[0]["source"]
+print(f"\n----[source]-----{source}\n \n ---[Chuncked]---\n{chucker}")
+
+# get the postion/ number of each chunks
+for i, piece in enumerate(chucker):
+    # print(f"\n ---chunk {i + 1} ----$")
+    print(f"\n --- Chuck 🧩 {i +1 }--- ",piece)
+
+# Documents loading and Chuncking done ✅
 
 
+# Step 4 Embeddings 🧠
+from sentence_transformers import SentenceTransformer
 
-
-# def load_docs(folder="doc"):
-#     for file in os.listdir(folder):
-#         path = os.path.join(folder, file)
-#         #print(path)
-#     # if os.path.isfile(path):
-#     #     return True
-#     # else:
-#     #     return False
 
 
 

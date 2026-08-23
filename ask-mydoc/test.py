@@ -45,3 +45,15 @@ chunk(text=text)
 #             content =  file.read()
 #         print(f"\n--- {file} ---")
 #         print(content)
+
+
+
+# def load_docs(folder="doc"):
+#     for file in os.listdir(folder):
+#         path = os.path.join(folder, file)
+#         #print(path)
+#     # if os.path.isfile(path):
+#     #     return True
+#     # else:
+#     #     return False
+
