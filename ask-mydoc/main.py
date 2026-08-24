@@ -1,7 +1,10 @@
 # First fastapi code
 from fastapi import FastAPI
 import os
+from dotenv import load_dotenv
+from openai import OpenAI
 
+load_dotenv()
 app = FastAPI()
 
 # get question request
@@ -70,7 +73,69 @@ for i, piece in enumerate(chucker):
 # Step 4 Embeddings 🧠
 from sentence_transformers import SentenceTransformer
 
+# Choose a model
+model = SentenceTransformer("all-MiniLM-L6-v2")
+print("-------------Model Loaded🔫--------------")
 
+# Turn Chunks to embeddings
+vectors = model.encode(chucker)
+#print(f"\n----{vectors[0]}----〽️")
+
+# Testing question
+question = "what is python"
+question_vector = model.encode(question)
+#print(f"Ques Vec 🚀🚀🚀🚀---- {question_vector}")
+
+
+
+# Step 5
+# Similarity search b/w chuncks vectors & Question Vector.🤖
+from sentence_transformers.util import semantic_search
+hits = semantic_search(question_vector, vectors, top_k=3)
+print(f"\n---- 📃{hits}")
+
+# Getting the actual text in the corpus_id 
+best_chunk_id = hits[0][0]["corpus_id"] # best result in of the semanitc search
+
+best_chunk = chucker[best_chunk_id]
+
+prompt = f"""Answer using ONLY the context below
+Context: 
+{best_chunk}
+Question:
+{question}
+"""
+print(prompt)
+print(f"\n --Best Chunk:--\n", {best_chunk})
+
+
+# Steps 6&7
+# The Generation part of Retrieval-Augmented Generation. 🚀
+# 💬 Answer
+
+# setup the OpenRouter Client
+client = OpenAI(
+    base_url="https://openrouter.ai/api/v1", 
+    api_key=os.getenv("OPENROUTER_API_KEY"))
+
+
+# call the LLM using the 'prompt' you built above!
+print("\n⌛ sending to NVIDIA LLM...")
+try:
+    response = client.chat.completions.create(
+        model="meta-llama/llama-3.1-8b-instruct:free",
+        message=[
+            {
+                "role":"user",
+                "content": prompt
+            }
+        ]
+    )
+    final_answer = response.choices[0].message.content
+except Exception as e:
+    # catches ANY error (404. downtime, timeout)
+    print(f"\n ❌Error:{e}")
+    
 
 
 
