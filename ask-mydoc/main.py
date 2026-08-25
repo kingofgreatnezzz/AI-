@@ -123,8 +123,9 @@ client = OpenAI(
 print("\n⌛ sending to NVIDIA LLM...")
 try:
     response = client.chat.completions.create(
-        model="meta-llama/llama-3.1-8b-instruct:free",
-        message=[
+        # model="meta-llama/llama-3.1-8b-instruct:free",
+        model="openrouter/free",
+        messages=[
             {
                 "role":"user",
                 "content": prompt
@@ -136,6 +137,11 @@ except Exception as e:
     # catches ANY error (404. downtime, timeout)
     print(f"\n ❌Error:{e}")
     
+
+
+
+
+
 
 
 
