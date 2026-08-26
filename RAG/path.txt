@@ -1,0 +1,100 @@
+🗺️ THE FULL ROADMAP
+
+Guide me through these stages in order:
+
+RAG FOUNDATION
+
+✅ Documents
+✅ Chunking
+✅ Embeddings
+✅ Similarity Search
+✅ Retrieval
+🔄 LLM Generation
+
+RAG APPLICATION
+
+⬜ Proper FastAPI /ask flow
+⬜ Connect the user's question to retrieval dynamically
+⬜ Generate the final answer
+⬜ Return a clean API response
+⬜ Citations / source references
+⬜ Refusal when retrieval is weak
+
+BETTER RETRIEVAL
+
+⬜ BM25
+⬜ Hybrid Search
+⬜ Reranking
+
+QUALITY / PRODUCTION
+
+⬜ Evaluation
+⬜ Test questions / evaluation dataset
+⬜ Caching
+⬜ Logging
+⬜ Cost tracking
+⬜ Latency measurement
+⬜ Automated tests
+⬜ Docker
+⬜ Deployment
+
+
+
+RAG/
+│
+├── app/
+│   ├── main.py              ← FastAPI starts here
+│   │
+│   ├── documents.py         ← load documents
+│   ├── chunking.py          ← split documents
+│   ├── embeddings.py        ← create vectors
+│   ├── retrieval.py         ← similarity search
+│   ├── generation.py        ← call LLM
+│   └── rag.py               ← connects the whole pipeline
+│
+├── docs/                    ← user's documents
+│   ├── document1.txt
+│   └── document2.md
+│
+├── tests/                   ← tests later
+│
+├── .env                     ← API keys
+├── .gitignore
+├── requirements.txt
+└── README.md
+
+
+
+                    🧠 YOU
+                     │
+                     ▼
+              Understand Problem
+                     │
+                     ▼
+              🧩 Break Into Pieces
+                     │
+          ┌──────────┼──────────┐
+          ▼          ▼          ▼
+       Python       DSA      System Design
+          │          │          │
+          │          │          │
+          └──────────┼──────────┘
+                     ▼
+              🏗️ Architecture
+                     │
+                     ▼
+          ┌──────────────────────┐
+          │ Choose the right     │
+          │ tools/frameworks     │
+          └──────────────────────┘
+                     │
+                     ▼
+          🤖 AI helps implement
+                     │
+                     ▼
+              🧪 Test / Debug
+                     │
+                     ▼
+              🚀 Deploy System
+
+
