@@ -36,7 +36,6 @@ def load_docs(folder="doc"):
         
     return docs
 
-
 # Chuncking will take a file, size, overlap 
 # Reason for Embeddings and Retrieval 
 
@@ -108,10 +107,9 @@ Question:
 print(prompt)
 print(f"\n --Best Chunk:--\n", {best_chunk})
 
+# QUERY PIPELINE (READ HEAVY)----6 & 7---
+# The Generation part of Retrieval-Augmented Generation🚀. 💬 Answer
 
-# Steps 6&7
-# The Generation part of Retrieval-Augmented Generation. 🚀
-# 💬 Answer
 
 # setup the OpenRouter Client
 client = OpenAI(
