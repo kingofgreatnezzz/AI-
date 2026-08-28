@@ -3,20 +3,11 @@ from fastapi import FastAPI
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
+from fastapi import FastAPI, File, UploadFile
+
 
 load_dotenv()
 app = FastAPI()
-
-# get question request
-@app.get("/ask")
-def ask(question: str):
-    return{"answer": f"dummy:{question}"}
-    
-# home page message 
-@app.get("/")
-def home():
-    return{"Hello" : "world"}
-
 
 # My documents (load all documents so it's visible)
 def load_docs(folder="doc"):
@@ -135,14 +126,5 @@ except Exception as e:
     # catches ANY error (404. downtime, timeout)
     print(f"\n ❌Error:{e}")
     
-
-
-
-
-
-
-
-
-
 
 
