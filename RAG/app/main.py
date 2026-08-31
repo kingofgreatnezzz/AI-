@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from fastapi import FastAPI, File, UploadFile, HTTPException
 import mimetypes
-import fitz
+import pymupdf
 
 load_dotenv()
 app = FastAPI()
@@ -32,6 +32,7 @@ def ingestion(file: UploadFile):
 
     # Actual file claim
     file_context = file.file.read(5)
+    file.file.seek(0)
     if file_context != b"%PDF-":
         raise HTTPException(status_code=400,detail="This is not a PDF as claimed 👺")
 
@@ -39,12 +40,26 @@ def ingestion(file: UploadFile):
     if file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=400,detail="File size is too Big\n Please select a file lesser than 15 MB" )
      
-    # Parser for PDF's
-    parse_pdf = fitz.open(streaml=)
+    # Parse PDF file
+    actual_file = file.file.read()
+    parse_pdf = pymupdf.open(stream=actual_file, filetype="pdf")
+    text = " "
+    for texts in parse_pdf:
+        text += texts.get_text()
+    
+    # Parse PDF Text File
+    if file_mime == "text/plain":
+        file.file.read().decode("utf-8")
+
+    # Parse PDF MD File
+    if file_mime == "text/markdown":
+        file.file.read().decode("utf-8")
+           
     return{
         "filename": file.filename,
         "MIME_Type": file_mime,
-        "message": "File Accepted"
+        "message": "File Accepted ✅😒",
+       # "text": text
         }
 
 

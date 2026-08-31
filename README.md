@@ -67,6 +67,17 @@ RAG/
 
 
 
+             FILE
+              ↓
+        What type is it?
+         ↙    ↓     ↘
+      PDF    TXT     MD
+       ↓      ↓       ↓
+   PyMuPDF  read()   read()
+       ↓      ↓       ↓
+            TEXT
+            
+
 
 
 ```text
