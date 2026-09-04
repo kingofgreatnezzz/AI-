@@ -67,6 +67,12 @@ RAG/
 
 
 
+           Upload
+            ↓
+           Security ✅
+            ↓
+           Parsing ✅
+            ↓
              FILE
               ↓
         What type is it?
@@ -76,7 +82,17 @@ RAG/
    PyMuPDF  read()   read()
        ↓      ↓       ↓
             TEXT
-            
+
+            Clean/prepare text 🧹🫧
+              ↓
+             Chunking ← NEXT
+              ↓
+             Embeddings
+              ↓
+             Vector DB
+
+
+
 
 
 

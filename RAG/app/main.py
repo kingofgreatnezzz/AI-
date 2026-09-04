@@ -26,35 +26,34 @@ def ingestion(file: UploadFile):
     if file_mime not in allowed_types:
         raise HTTPException(status_code=400,detail="Format Rejected ❌")
 
-    # # File extention checks
+    # # File Extention checks
     if not file.filename.endswith((".pdf",".md",".txt")):
         raise HTTPException(status_code=400,detail="File not Accepted")
-
-    # Actual file claim
-    file_context = file.file.read(5)
-    file.file.seek(0)
-    if file_context != b"%PDF-":
-        raise HTTPException(status_code=400,detail="This is not a PDF as claimed 👺")
 
     # File size checks
     if file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=400,detail="File size is too Big\n Please select a file lesser than 15 MB" )
      
-    # Parse PDF file
-    actual_file = file.file.read()
-    parse_pdf = pymupdf.open(stream=actual_file, filetype="pdf")
-    text = " "
-    for texts in parse_pdf:
-        text += texts.get_text()
-    
-    # Parse PDF Text File
-    if file_mime == "text/plain":
-        file.file.read().decode("utf-8")
+    if file_context == "application/pdf":
+        # Actual file claim
+        file.file.seek(0)
+        file_context = file.file.read(5)
 
-    # Parse PDF MD File
-    if file_mime == "text/markdown":
-        file.file.read().decode("utf-8")
-           
+        if file_context != b"%PDF-":
+        raise HTTPException(status_code=400,detail="This is not a PDF as claimed 👺")
+
+        file.file.seek(0)
+        actual_file = file.file.read()
+        parse_pdf = pymupdf.open(stream=actual_file, filetype="pdf")
+        text = " "
+        for texts in parse_pdf:
+            text += texts.get_text()
+
+    # Read TXT MD File
+    elif file_mime in ["text/markdown","text/plain"]:
+        file.file.seek(0)
+        text = file.file.read().decode("utf-8")
+     
     return{
         "filename": file.filename,
         "MIME_Type": file_mime,
@@ -73,6 +72,12 @@ def ask(question: str):
 @app.get("/")
 def home():
     return{"Hello" : "world"}
+
+
+
+
+
+
 
 
 
