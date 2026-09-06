@@ -21,7 +21,6 @@ def ingestion(file: UploadFile):
     fname = file.filename
     print(f"file name ✅😒",fname)
     
-    
     # Check if mime_type is acceptable
     if file_mime not in allowed_types:
         raise HTTPException(status_code=400,detail="Format Rejected ❌")
@@ -34,13 +33,13 @@ def ingestion(file: UploadFile):
     if file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=400,detail="File size is too Big\n Please select a file lesser than 15 MB" )
      
-    if file_context == "application/pdf":
+    if file_mime == "application/pdf":
         # Actual file claim
         file.file.seek(0)
         file_context = file.file.read(5)
 
         if file_context != b"%PDF-":
-        raise HTTPException(status_code=400,detail="This is not a PDF as claimed 👺")
+            raise HTTPException(status_code=400,detail="This is not a PDF as claimed 👺")
 
         file.file.seek(0)
         actual_file = file.file.read()
@@ -48,6 +47,7 @@ def ingestion(file: UploadFile):
         text = " "
         for texts in parse_pdf:
             text += texts.get_text()
+            # return text
 
     # Read TXT MD File
     elif file_mime in ["text/markdown","text/plain"]:
