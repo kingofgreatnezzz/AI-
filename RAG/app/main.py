@@ -6,10 +6,11 @@ from openai import OpenAI
 from fastapi import FastAPI, File, UploadFile, HTTPException
 import mimetypes
 import pymupdf
+from app.utils import cleaner
+from app.utils import chuncker
 
 load_dotenv()
 app = FastAPI()
-
 
 @app.post("/ingestion")
 def ingestion(file: UploadFile):
@@ -53,12 +54,21 @@ def ingestion(file: UploadFile):
     elif file_mime in ["text/markdown","text/plain"]:
         file.file.seek(0)
         text = file.file.read().decode("utf-8")
+
+    # Cleaning 🧹🫧
+    text = cleaner(text=text)
+
+    # Chunking 📃
+    chunked = chuncker(text=text, size=400, overlap=80)
+
+    # 
+
      
     return{
         "filename": file.filename,
         "MIME_Type": file_mime,
         "message": "File Accepted ✅😒",
-       # "text": text
+        "text": text
         }
 
 

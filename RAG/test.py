@@ -54,24 +54,24 @@
 #         #print(path)
 #     # if os.path.isfile(path):
 #     #     return True
-#     # else:
+#     # else:``
 #     #     return False
 
 
-from openai import OpenAI
-import inspect
-import os 
-from dotenv import load_dotenv
+# from openai import OpenAI
+# import inspect
+# import os 
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
-client = OpenAI(
-    base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
-)
+# client = OpenAI(
+#     base_url="https://openrouter.ai/api/v1",
+#     api_key=os.getenv("OPENROUTER_API_KEY")
+# )
 
-results = dir(type(client))
-print(results)
+# results = dir(type(client))
+# print(results)
 
 
 # results = dir(client.chat.completions)
