@@ -61,7 +61,15 @@ def ingestion(file: UploadFile):
     # Chunking 📃
     chunked = chuncker(text=text, size=400, overlap=80)
 
-    # 
+    # embeddings 
+    from sentence_transformers import SentenceTransformer
+    model = SentenceTransformer("deepseek-v4-pro")
+
+    #chuncks to embeddings
+    vector= model.encode(chunked)
+
+    # store to DB
+    
 
      
     return{
